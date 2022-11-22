@@ -11,7 +11,8 @@ export const Board = styled.div`
     align-items: center;
     flex: 1;
 
-    header {
+    /* sinal de >, quer dizer que só se aplica a filhos diretos a Board (pai)*/
+    > header {
         padding: 8px;
         font-size: 14px;
         display: flex;

@@ -18,16 +18,28 @@ export function OrdersBoard({icon, title, orders}: OrdersBoardProps) {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    function handleOpenOrder() {
+    // <null | Order> quer dizer que esse estado, ou vai ser nulo ou vai ter Order quando modal é clicado
+    const [selectedOrder, setSelectedOrder] = useState<null | Order>(null);
+
+    function handleOpenOrder(order: Order) {
        setIsModalVisible(true);
 
-       console.log(setIsModalVisible);
+       setSelectedOrder(order);
+    }
+
+    function handleCloseModal() {
+        setIsModalVisible(false);
+        setSelectedOrder(null);
     }
 
     return (
         <Board>
 
-            <OrderModal visible={isModalVisible}/>
+            <OrderModal 
+            visible={isModalVisible}
+            order={selectedOrder}
+            onClose={handleCloseModal}
+            />
 
             <header>
                 <span>{icon}</span>
@@ -38,7 +50,7 @@ export function OrdersBoard({icon, title, orders}: OrdersBoardProps) {
             {orders.length > 0 && (
                 <OrdersContainer>
                 {orders.map((order) =>(
-                    <button type="button" key={order._id} onClick={handleOpenOrder}>
+                    <button type="button" key={order._id} onClick={() => handleOpenOrder(order)}>
                         <strong>Mesa {order.table}</strong>
                         <span>{order.products.length} itens</span>
                     </button>
